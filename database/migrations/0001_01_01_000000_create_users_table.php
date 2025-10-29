@@ -34,19 +34,6 @@ return new class extends Migration {
             $table->longText('payload');
             $table->integer('last_activity')->index();
         });
-
-        Schema::create('departments', function (Blueprint $table) {
-            $table->id();
-            $table->string('nama_departemen', 100);
-            $table->timestamps();
-        });
-
-        Schema::create('positions', function (Blueprint $table) {
-            $table->id();
-            $table->string('nama_jabatan', 100);
-            $table->decimal('gaji_pokok', 10, 2);
-            $table->timestamps();
-        });
     }
 
     /**

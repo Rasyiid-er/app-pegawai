@@ -20,7 +20,7 @@ return new class extends Migration {
             $table->foreign('jabatan_id')
                 ->references('id')
                 ->on('positions')
-                ->onDelete('cascade');
+                ->onDelete('restrict');
 
         });
     }

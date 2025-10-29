@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Employee;
+use App\Models\Department;
+use App\Models\Position;
 use Illuminate\Http\Request;
 
 class EmployeeController extends Controller
@@ -13,16 +15,20 @@ class EmployeeController extends Controller
     public function index()
     {
         $employees = Employee::latest()->paginate(5);
-
+        // dd($employees);
         return view('employees.index', compact('employees'));
     }
+
 
     /**
      * Show the form for creating a new resource.
      */
     public function create()
     {
-        return view('employees.create');
+        $departments = Department::all();
+        $positions = Position::all();
+        // dd($departments);
+        return view('employees.create', compact('departments', 'positions'));
     }
     /**
      * Store a newly created resource in storage.
@@ -37,7 +43,11 @@ class EmployeeController extends Controller
             'alamat' => 'required|string|max:255',
             'tanggal_masuk' => 'required|date',
             'status' => 'required|string|max:50',
+            'departemen_id' => 'required',
+            'jabatan_id' => 'required',
+
         ]);
+        // dd($request->all());
         Employee::create($request->all());
         return redirect()->route('employees.index');
     }
@@ -57,7 +67,10 @@ class EmployeeController extends Controller
     public function edit(string $id)
     {
         $employee = Employee::find($id);
-        return view('employees.edit', compact('employee'));
+        $departments = Department::all();
+        $positions = Position::all();
+        // dd($employee);
+        return view('employees.edit', compact('employee', 'departments', 'positions'));
     }
 
     /**
@@ -73,6 +86,8 @@ class EmployeeController extends Controller
             'alamat' => 'required|string|max:255',
             'tanggal_masuk' => 'required|date',
             'status' => 'required|string|max:50',
+            'departemen_id' => 'required',
+            'jabatan_id' => 'required',
         ]);
         $employee = Employee::findOrFail($id);
         $employee->update($request->only([
@@ -83,6 +98,8 @@ class EmployeeController extends Controller
             'alamat',
             'tanggal_masuk',
             'status',
+            'departemen_id',
+            'jabatan_id',
         ]));
         return redirect()->route('employees.index');
     }
